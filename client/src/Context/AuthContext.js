@@ -14,7 +14,7 @@ export default ({children}) =>{
             setIsAuthenticated(data.isAuthenticated);
             setIsLoaded(true);
         })
-    }, [input])
+    }, [])
 
     return (
         <div>
