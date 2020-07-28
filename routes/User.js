@@ -42,4 +42,36 @@ userRouter.post('/login',passport.authenticate('local',{session:false}),(req,res
     }
 });
 
+userRouter.get('/logout',passport.authenticate('jwt',{session:false}),(req,res)=>{
+    res.clearCookie('access_token');
+    res.json({user:{username: "", role:""},success:true});
+});
+
+userRouter.post('/todo',passport.authenticate('jwt',{session:false}),(req,res)=>{
+    const todo = new Todo(req.body);
+    todo.save(err=>{
+        if(err)
+            res.status(500).json({message: {msgBody : "Error has occured", msgError: true}});
+        else{
+            req.user.todos.push(todo);
+            req.user.save(err=>{
+                if(err)
+                    res.status(500).json({message: {msgBody : "Error has occured", msgError: true}});
+                else    
+                    res.status(200).json({message: {msgBody:"Successfully created todo", msgError: false}})
+            })
+        }
+    })
+});
+
+userRouter.get('/todos',passport.authenticate('jwt',{session:false}),(req,res)=>{
+    User.findById({_id : req.user._id}).populate('todos').exec((err,document)=>{
+        if(err)
+            res.status(500).json({message: {msgBody : "Error has occured", msgError: true}});
+        else   
+            res.status(200).json({todos: document.todos, authenticated :true});
+            
+    })
+});
+
 module.exports = userRouter;
