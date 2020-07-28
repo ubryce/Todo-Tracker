@@ -6,6 +6,15 @@ import {AuthContext} from '../Context/AuthContext';
 const Navbar = props =>{
     const {isAuthenticated,user,setIsAuthenticated,setUser} = useContext(AuthContext);
 
+    const onClickLogoutHandler = ()=>{
+        AuthService.logout().then(data=>{
+            if(data.success){
+                setUser(data.user);
+                setIsAuthenticated(false);
+            }
+        });
+    }
+
     const unauthenticatedNavBar = ()=>{
         return(
             <>
@@ -28,13 +37,39 @@ const Navbar = props =>{
         )
     }
 
+    const authenticatedNavBar = ()=>{
+        return(
+            <>
+                <Link to="/">
+                    <li className="nav-item nav-link">
+                        Home
+                    </li>
+                </Link>
+                <Link to="/todos">
+                    <li className="nav-item nav-link">
+                        Todos
+                    </li>
+                </Link>
+                {
+                    user.role === "admin" ?
+                    <Link to="/admin">
+                        <li className="nav-item nav-link">
+                        Admin
+                        </li>
+                    </Link> : null
+                }
+                <button type="button" className="btn btn-link nav-item nav-link" onclick={onClickLogoutHandler}>Logout</button>
+            </>
+        )
+    }
+
     return(
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link to="/">
-                <div className="navbar-brand">List Tracker</div>
+                <div className="navbar-brand">Todo Tracker</div>
             </Link>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav mr-auto">
+            <div className="collapse navbar-collapse" id="navbarText">
+                <ul className="navbar-nav mr-auto">
                     { !isAuthenticated ? unauthenticatedNavBar() : authenticatedNavBar()}
                 </ul>
         </div>
