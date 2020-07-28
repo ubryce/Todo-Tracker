@@ -58,7 +58,7 @@ const Navbar = props =>{
                         </li>
                     </Link> : null
                 }
-                <button type="button" className="btn btn-link nav-item nav-link" onclick={onClickLogoutHandler}>Logout</button>
+                <button type="button" className="btn btn-link nav-item nav-link" onClick={onClickLogoutHandler}>Logout</button>
             </>
         )
     }
