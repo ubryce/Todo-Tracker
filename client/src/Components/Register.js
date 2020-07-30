@@ -45,12 +45,7 @@ const Register = props=>{
                 <label htmlFor="password" className="sr-only">Password: </label>
                 <input type="password" name="password" onChange={onChange} className="form-control" placeholder="Enter password"></input>
                 <label htmlFor="role" className="sr-only">Role: </label>
-                <input type="text" 
-                       name="role"
-                       value={user.role}  
-                       onChange={onChange} 
-                       className="form-control" 
-                       placeholder="Enter role (admin/user)"/>
+                <input type="text" name="role" value={user.role} onChange={onChange} className="form-control" placeholder="Enter role (admin/user)"/>
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Register</button>
             </form>
             {message ? <Message message={message}/> : null}
