@@ -1,7 +1,6 @@
 import React, {useState,useRef,useEffect} from 'react';
 import AuthService from '../Services/AuthService';
 import Message from "../Components/Message";
-import { on } from 'nodemon';
 
 const Register = props=>{
     const [user,setUser] = useState({username:'',password:"",role:""});

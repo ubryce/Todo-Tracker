@@ -1,7 +1,8 @@
-import React, {useState,usetContext,useEffect} from 'react';
+import React, {useState,useContext,useEffect} from 'react';
 import TodoItem from './TodoItem';
 import TodoService from '../Services/TodoService';
 import {AuthContext} from '../Context/AuthContext';
+import Message from "./Message";
 
 const Todos = props =>{
     const [todo,setTodo] = useState({name:''});
@@ -15,12 +16,41 @@ const Todos = props =>{
         });
     },[]);
 
+    const onSubmit = e =>{
+        e.preventDefault();
+        TodoService.postTodo(todo).then(data =>{
+            const {message} = data;
+            resetForm();
+            if(!message.msgError){
+                TodoService.getTodos().then(getData =>{
+                    setTodos(getData.todos);
+                    setMessage(message);
+                })
+            }
+            else if(message.msgBody === "Unauthorized"){
+                setMessage(message);
+                authContext.setUser({username:"",role:""});
+                authContext.setIsAuthenticated(false);
+            }
+            else
+                setMessage(message);
+        });
+    }
+
+    const onChange = e =>{
+        setTodo({name:e.target.value});
+    }
+
+    const resetForm = ()=>{
+        setTodo({name:""});
+    }
+
     return(
         <div>
             <ul className="list-group">
                 {
                     todos.map(todo =>{
-                        return <TodoItem key={todo_id} todo={todo}/>
+                        return <TodoItem key={todo._id} todo={todo}/>
                     })
                 }
             </ul>
