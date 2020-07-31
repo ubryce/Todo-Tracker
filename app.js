@@ -17,8 +17,6 @@ mongoose.connect('mongodb+srv://bryce:1234@cluster0-wbncb.mongodb.net/trades?ret
 
 app.use('/user',userRouter);
 
-
-
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static('client/build'));
     app.get('*',(req, res)=>{
