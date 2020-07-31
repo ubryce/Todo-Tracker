@@ -2,7 +2,7 @@ export default {
     getTodos : ()=>{
         return fetch('/user/todos')
             .then(response=>{
-                if(response.status != 401){
+                if(response.status !== 401){
                     return response.json().then(data => data);
                 }
                 else
@@ -18,7 +18,7 @@ export default {
                 'Content-Type':'application/json'
             }
         }).then(response=>{
-            if(response.status != 401){
+            if(response.status !== 401){
                 return response.json().then(data => data);
             }
             else
