@@ -16,7 +16,7 @@ function App() {
       <Route path="/login" component={Login}/>
       <Route path="/register" component={Register}/>
       <PrivateRoute path="/todos" roles={["user","admin"]} component={Todos}/>
-      <Route path="/admin" component={Admin}/>
+      <PrivateRoute path="/admin" roles={["admin"]} component={Admin}/>
     </Router>
   );
 }
