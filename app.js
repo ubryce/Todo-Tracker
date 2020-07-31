@@ -17,12 +17,15 @@ mongoose.connect('mongodb+srv://bryce:1234@cluster0-wbncb.mongodb.net/trades?ret
 
 app.use('/user',userRouter);
 
-app.use(express.static(path.join(__dirname, 'client/build')));
 
-// Handles any requests that don't match the ones above
-app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
+
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static('client/build'));
+    app.get('*',(req, res)=>{
+        res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+    }
+    )
+}
 
 const port = process.env.PORT || 5000;
 app.listen(port);
